@@ -2,7 +2,7 @@ from services.db_repo_init import session
 from models.biljka import Biljka
 from models.korisnik import Korisnik
 from models.posuda import Posuda
-from sqlalchemy import and_
+from sqlalchemy import and_, func
 
 def get_all_pybiljke()-> list[Biljka]:
     return (session.query(Biljka).all())
@@ -23,9 +23,9 @@ def insert_pybiljke(biljka: Biljka):
 def update_pybiljke(id, naziv, slika, njega):
     biljka_to_upd = (session.query(Biljka)
                      .filter(Biljka.id == id)
-                     .update({'naziv': naziv,
-                              'slika': slika,
-                              'njega': njega}))
+                     .update({'naziv': func.coalesce(naziv, Biljka.naziv),
+                              'slika': func.coalesce(slika, Biljka.slika),
+                              'njega': func.coalesce(njega, Biljka.njega)}))
     session.commit()
     return biljka_to_upd
 
