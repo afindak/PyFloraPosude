@@ -48,4 +48,16 @@ ID - NUMBER
 IME - STRING
 PREZIME - STRING
 USERNAME - STRING
-PASS - STRING
+PASSWORD - STRING
+
+pomoc:
+def editObject(object_id, **kwargs):
+
+    object = session.query(Object).filter_by(id = object_id).one()
+
+    for attr, value in kwargs.iteritems():
+        if value:
+            setattr(object, attr, value)
+
+    session.add(object)
+    session.commit()
