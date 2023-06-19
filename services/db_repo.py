@@ -3,6 +3,7 @@ from models.biljka import Biljka
 from models.korisnik import Korisnik
 from models.posuda import Posuda
 from sqlalchemy import and_, func
+from datetime import datetime as dt
 
 def get_all_pybiljke()-> list[Biljka]:
     return (session.query(Biljka).all())
@@ -43,5 +44,16 @@ def insert_pyposude(posuda: Posuda):
         session.add(posuda)
         session.commit()
 
-def update_pyposude(id, naziv_lokacije):
-    pass
+def update_pyposude(id, naziv_lokacije, id_biljke, vlaga_zemlje, ph_zemlje, razina_svjetla, temp_zraka):
+    posuda_to_update = (session.query(Posuda)
+                        .filter(Posuda.id == id)
+                        .update({'naziv_lokacije': func.coalesce(naziv_lokacije, Posuda.naziv),
+                                 'id_biljke': func.coalesce(id_biljke, Posuda.id_biljke),
+                                 'vlaga_zemlje': func.coalesce(vlaga_zemlje, Posuda.vlaga_zemlje),
+                                 'ph_zemlje': func.coalesce(ph_zemlje, Posuda.ph_zemlje),
+                                 'razina_svjetla': func.coalesce(razina_svjetla, Posuda.razina_svjetla),
+                                 'temp_zraka': func.coalesce(temp_zraka, Posuda.temp_zraka),
+                                 'vrijeme_azuriranja': dt.now())
+                        }))
+    session.commit()
+    return posuda_to_update
