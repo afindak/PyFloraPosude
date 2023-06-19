@@ -3,7 +3,7 @@ Biljke:
 a)
 ID - NUMBER
 NAZIV - STRING
-FOTOGRAFIJA - STRING
+SLIKA - STRING
     # Get the image
     image = open(path, 'rb')
     image_read = image.read()
@@ -29,7 +29,9 @@ NAZIV_LOKACIJE - STRING
 ID_BILJKE - NUMBER - DEFAULT NULL("Prazna Posuda")
 VLAGA_ZEMLJE - NUMBER
 pH_ZEMLJE - NUMBER
-RAZINA SVJETLA - STRING
+RAZINA_SVJETLA - STRING
+TEMP_ZRAKA
+VRIJEME_AZURIRANJA
 
 b)
 1. napuni posudu (insert u posudu)
