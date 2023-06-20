@@ -8,3 +8,6 @@ db_engine = create_engine(SQL_CONNECTION_STRING)
 Session = sessionmaker()
 Session.configure(bind = db_engine)
 session = Session()
+
+def db_init():
+    Base.metadata.create_all(db_engine)

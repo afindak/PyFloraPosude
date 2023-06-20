@@ -2,6 +2,8 @@ from services.db_repo_init import Base
 from sqlalchemy import Column, Integer, String
 from sqlalchemy.orm import backref, relationship
 import base64
+from io import BytesIO 
+from PIL import Image
 
 class Biljka(Base):
     __tablename__ = 'pybiljke'
@@ -11,7 +13,7 @@ class Biljka(Base):
     njega = Column(String, nullable= True)
     posude = relationship('Posuda', backref=backref('biljka'))
     def __repr__(self):
-        return f'id = {self.id}, name = {self.name}'
+        return f'id = {self.id}, name = {self.naziv}'
     def __init__(self, naziv, njega):
         self.naziv = naziv
         self.njega = njega 
@@ -28,3 +30,10 @@ class Biljka(Base):
                 raise Exception('Something went wrong when opening image')
         image_encoded = image_64_encode.decode('utf-8')
         self.slika = image_encoded
+
+    def show_image(self):
+        file_slike = BytesIO(base64.decodebytes(bytes(self.slika, "utf-8")))
+        foto = Image.open(file_slike).convert("RGB")
+        foto.show() 
+
+         

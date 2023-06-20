@@ -53,7 +53,11 @@ def update_pyposude(id, naziv_lokacije, id_biljke, vlaga_zemlje, ph_zemlje, razi
                                  'ph_zemlje': func.coalesce(ph_zemlje, Posuda.ph_zemlje),
                                  'razina_svjetla': func.coalesce(razina_svjetla, Posuda.razina_svjetla),
                                  'temp_zraka': func.coalesce(temp_zraka, Posuda.temp_zraka),
-                                 'vrijeme_azuriranja': dt.now())
-                        }))
+                                 'vrijeme_azuriranja': dt.now()})
+                        )
     session.commit()
     return posuda_to_update
+
+def delete_pyposude(posuda_to_del: Posuda):
+    session.delete(posuda_to_del)
+    session.commit()
