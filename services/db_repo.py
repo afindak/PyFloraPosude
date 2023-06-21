@@ -12,6 +12,16 @@ def get_pybiljke_by_id(id):
     return (session.query(Biljka)
               .filter(Biljka.id == id)
               .one_or_none())
+def get_pyposude(all_pyposude : bool = False) -> list[Posuda]:
+    return (session.query(Posuda)
+            .join(Biljka)
+            .filter((Posuda.id_biljke is not None and all_pyposude is False) or all_pyposude is True )
+            .all() )
+def get_posuda_biljke(biljka_id: Biljka.id):
+    return (session.query(Biljka) #.select_from(Biljka)
+            .join(Posuda) #Posuda)
+            .filter(Biljka.id == biljka_id)
+            .all())
 
 def insert_pybiljke(biljka: Biljka):
     data = (session.query(Biljka)
@@ -37,23 +47,23 @@ def delete_pybiljke(biljka_to_del: Biljka):
 def insert_pyposude(posuda: Posuda):
     data = (session.query(Posuda)
             .filter(and_(
-            Posuda.naziv_lokacije == posuda.naziv_lokacije,
+            Posuda.naziv == posuda.naziv,
             Posuda.id_biljke == posuda.id_biljke))
             .one_or_none())
     if data is None:
         session.add(posuda)
         session.commit()
 
-def update_pyposude(id, naziv_lokacije, id_biljke, vlaga_zemlje, ph_zemlje, razina_svjetla, temp_zraka):
+def update_pyposude(id, naziv, vlaga_zemlje, ph_zemlje, temp_zraka, razina_svjetla, id_biljke):
     posuda_to_update = (session.query(Posuda)
                         .filter(Posuda.id == id)
-                        .update({'naziv_lokacije': func.coalesce(naziv_lokacije, Posuda.naziv),
-                                 'id_biljke': func.coalesce(id_biljke, Posuda.id_biljke),
+                        .update({'naziv': func.coalesce(naziv, Posuda.naziv),
                                  'vlaga_zemlje': func.coalesce(vlaga_zemlje, Posuda.vlaga_zemlje),
                                  'ph_zemlje': func.coalesce(ph_zemlje, Posuda.ph_zemlje),
-                                 'razina_svjetla': func.coalesce(razina_svjetla, Posuda.razina_svjetla),
                                  'temp_zraka': func.coalesce(temp_zraka, Posuda.temp_zraka),
-                                 'vrijeme_azuriranja': dt.now()})
+                                 'razina_svjetla': func.coalesce(razina_svjetla, Posuda.razina_svjetla),
+                                 'vrijeme_azuriranja': dt.now(),
+                                 'id_biljke': func.coalesce(id_biljke, Posuda.id_biljke)})
                         )
     session.commit()
     return posuda_to_update
@@ -61,3 +71,4 @@ def update_pyposude(id, naziv_lokacije, id_biljke, vlaga_zemlje, ph_zemlje, razi
 def delete_pyposude(posuda_to_del: Posuda):
     session.delete(posuda_to_del)
     session.commit()
+ 

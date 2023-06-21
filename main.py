@@ -1,6 +1,7 @@
-from services.db_repo_init import db_init
+from services.db_repo_init import db_init, session
 from services.db_repo import insert_pybiljke, insert_pyposude, update_pybiljke, get_pybiljke_by_id
 from models.biljka import Biljka
+from models.posuda import Posuda
 
 if __name__== '__main__':
     db_init()
@@ -15,10 +16,11 @@ if __name__== '__main__':
     insert_pybiljke(biljka2)'''
     #biljka2 = get_pybiljke_by_id(2)
     #biljka2.show_image()
+    #biljka1 = get_pybiljke_by_id(1)
+    #biljka1.add_image(path='C:\\Users\\afind\\Documents\\Python\\seminar_fotos\\macuhica.jpg')
+    #update_pybiljke(1,None,biljka1.slika,None)
     biljka1 = get_pybiljke_by_id(1)
-    biljka1.add_image(path='C:\\Users\\afind\\Documents\\Python\\seminar_fotos\\macuhica.jpg')
-    update_pybiljke(1,None,biljka1.slika,None)
-    biljka1 = get_pybiljke_by_id(1)
-    biljka1.show_image()
+    #biljka1.show_image()
 
-
+    posuda1 = Posuda('posuda_02', None, None, None, None, None)
+    insert_pyposude(posuda1)
