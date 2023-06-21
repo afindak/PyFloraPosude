@@ -2,7 +2,7 @@ from services.db_repo_init import session
 from models.biljka import Biljka
 from models.korisnik import Korisnik
 from models.posuda import Posuda
-from sqlalchemy import and_, func
+from sqlalchemy import and_, func, or_, false
 from datetime import datetime as dt
 
 def get_all_pybiljke()-> list[Biljka]:
@@ -12,11 +12,17 @@ def get_pybiljke_by_id(id):
     return (session.query(Biljka)
               .filter(Biljka.id == id)
               .one_or_none())
+
 def get_pyposude(all_pyposude : bool = False) -> list[Posuda]:
-    return (session.query(Posuda)
+    if not all_pyposude:
+        query = (session.query(Posuda)
             .join(Biljka)
-            .filter((Posuda.id_biljke is not None and all_pyposude is False) or all_pyposude is True )
-            .all() )
+            .filter(Posuda.id_biljke is not None ))
+    else:
+        query = (session.query(Posuda)
+            .outerjoin(Biljka))
+    return query.all() 
+             
 def get_posuda_biljke(biljka_id: Biljka.id):
     return (session.query(Biljka) #.select_from(Biljka)
             .join(Posuda) #Posuda)

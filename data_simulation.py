@@ -41,5 +41,5 @@ if __name__== '__main__':
     #print(vlaga_zemlje, ph_zemlje, temp_zraka, razina_svjetla)
     #njega = get_njega(1)
     #print(njega)
-    for r in get_pyposude(all_pyposude= True):
+    for r in get_pyposude():
         print(r.naziv)
