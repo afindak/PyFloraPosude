@@ -9,10 +9,10 @@ class Korisnik(Base):
     username = Column(String, nullable= False)
     password = Column(String, nullable= False)
 
-    def __init__(self, ime, prezime, username, password, is_logged_in):
+    def __init__(self, ime, prezime, username, password):
         self.ime = ime
         self.prezime = prezime
         self.username = username
         self.password = password
-        self.is_logged_in = is_logged_in
+        #self.is_logged_in = is_logged_in
         
