@@ -3,6 +3,8 @@ import requests
 from constants import URL
 from models.biljka import Biljka
 from services.db_repo import get_posuda_biljke, get_pyposude
+from datetime import datetime
+import json
 
 def get_temperature()-> float:
     response = requests.get(URL)
@@ -35,11 +37,14 @@ def get_njega(biljka_id: int):
             elif r.temp_zraka > 30:
                 njega = njega + 'preseliti na hladnije '
     return njega
-        
-if __name__== '__main__':
-    #vlaga_zemlje, ph_zemlje, temp_zraka, razina_svjetla = simul_data_for_pyposuda()
-    #print(vlaga_zemlje, ph_zemlje, temp_zraka, razina_svjetla)
-    #njega = get_njega(1)
-    #print(njega)
-    for r in get_pyposude():
-        print(r.naziv)
+
+def save_sync_data(posuda_id, vlaga_zemlje, ph_zemlje, temp_zraka, razina_svjetla):
+    sync_data = dict()
+    sync_data [f'{posuda_id}']= {'vlaga_zemlje': vlaga_zemlje,
+                                 'ph_zemlje': ph_zemlje,
+                                 'temp_zraka': temp_zraka,
+                                 'razina_svjetla': razina_svjetla,
+                                 'timestamp': str(datetime.now())}
+    with open('db_data\pyposude.txt', 'a') as file_writer:
+        json.dump(sync_data, file_writer, indent=4)
+

@@ -2,8 +2,13 @@ from services.db_repo_init import session
 from models.biljka import Biljka
 from models.korisnik import Korisnik
 from models.posuda import Posuda
-from sqlalchemy import and_, func, or_, false
+from sqlalchemy import and_, func
 from datetime import datetime as dt
+
+def get_user_by_username(username):
+    return (session.query(Korisnik)
+            .filter(Korisnik.username == username)
+            .one_or_none())
 
 def get_all_pybiljke()-> list[Biljka]:
     return (session.query(Biljka).all())
@@ -28,6 +33,15 @@ def get_posuda_biljke(biljka_id: Biljka.id):
             .join(Posuda) #Posuda)
             .filter(Biljka.id == biljka_id)
             .all())
+
+def insert_korisnici(korisnik: Korisnik):
+    data = (session.query(Korisnik)
+              .filter(and_(Korisnik.ime == korisnik.ime,
+                           Korisnik.prezime == korisnik.prezime))
+              .one_or_none())
+    if data is None:
+        session.add(korisnik)
+        session.commit()
 
 def insert_pybiljke(biljka: Biljka):
     data = (session.query(Biljka)

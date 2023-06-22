@@ -1,0 +1,25 @@
+{
+    "1": {
+        "vlaga_zemlje": 65,
+        "ph_zemlje": 6.52,
+        "temp_zraka": 32.7,
+        "razina_svjetla": "niska",
+        "timestamp": "2023-06-22 13:27:12.163620"
+    }
+}{
+    "2": {
+        "vlaga_zemlje": 57,
+        "ph_zemlje": 6.07,
+        "temp_zraka": 32.7,
+        "razina_svjetla": "srednja",
+        "timestamp": "2023-06-22 13:27:20.237299"
+    }
+}{
+    "1": {
+        "vlaga_zemlje": 47,
+        "ph_zemlje": 4.12,
+        "temp_zraka": 32.7,
+        "razina_svjetla": "niska",
+        "timestamp": "2023-06-22 13:38:41.514521"
+    }
+}

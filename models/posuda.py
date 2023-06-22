@@ -2,7 +2,7 @@ from services.db_repo_init import Base
 from sqlalchemy import Column, Integer, String, DateTime, Float, ForeignKey
 from datetime import datetime as dt 
 from constants import ENTITY_PRECISION, ENTITY_SCALE
-from models.biljka import Biljka
+
 
 class Posuda(Base):
     __tablename__ = 'pyposude'

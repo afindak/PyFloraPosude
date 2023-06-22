@@ -1,5 +1,5 @@
 from services.db_repo_init import Base
-from sqlalchemy import Column, Integer, String
+from sqlalchemy import Column, Integer, String, Boolean
 
 class Korisnik(Base):
     __tablename__ = 'pykorisnici'
@@ -9,8 +9,10 @@ class Korisnik(Base):
     username = Column(String, nullable= False)
     password = Column(String, nullable= False)
 
-    def __init__(self, ime, prezime, username, password):
+    def __init__(self, ime, prezime, username, password, is_logged_in):
         self.ime = ime
         self.prezime = prezime
         self.username = username
         self.password = password
+        self.is_logged_in = is_logged_in
+        
