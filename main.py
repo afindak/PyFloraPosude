@@ -1,5 +1,5 @@
 from services.db_repo_init import db_init, session
-from services.db_repo import insert_pybiljke, insert_pyposude, update_pybiljke, get_pybiljke_by_id, insert_korisnici
+from services.db_repo import insert_pybiljke, insert_pyposude, update_pybiljke, get_pybiljke_by_id, insert_korisnici, get_pyposude_by_id
 from models.biljka import Biljka
 from models.posuda import Posuda
 from models.korisnik import Korisnik
@@ -42,4 +42,7 @@ if __name__== '__main__':
     user = get_user_by_username('afindak')
     print(user.ime)
     biljka2 = get_pybiljke_by_id(2)
-    biljka2.show_image()
+    #biljka2.show_image()
+
+    posuda = get_pyposude_by_id(1)
+    print(posuda.__dict__)

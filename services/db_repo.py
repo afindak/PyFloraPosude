@@ -27,7 +27,12 @@ def get_pyposude(all_pyposude : bool = False) -> list[Posuda]:
         query = (session.query(Posuda)
             .outerjoin(Biljka))
     return query.all() 
-             
+
+def get_pyposude_by_id(id : Posuda.id):
+    return(session.query(Posuda)
+           .filter(Posuda.id == id)
+           .one_or_none())
+            
 def get_posuda_biljke(biljka_id: Biljka.id):
     return (session.query(Biljka) #.select_from(Biljka)
             .join(Posuda) #Posuda)
