@@ -93,6 +93,29 @@ def update_pyposude(id, naziv, vlaga_zemlje, ph_zemlje, temp_zraka, razina_svjet
     session.commit()
     return posuda_to_update
 
+def get_biljka_from_naziv(biljka_naziv):
+    biljka_id = (session.query(Biljka)
+              .with_entities(Biljka.id)
+              .filter(Biljka.naziv == biljka_naziv)
+              .one_or_none())
+    if biljka_id is None:
+        return None
+    return biljka_id[0]
+
+def update_biljka_posude(posuda_id, naziv_posude, naziv_biljke):
+    biljka_id = get_biljka_from_naziv(naziv_biljke)
+    if biljka_id is not None:
+        update_pyposude(posuda_id, naziv_posude, None, None, None, None, biljka_id)  
+        session.commit()
+
+def take_out_plant(posuda_id):
+    delete_plant = (session.query(Posuda)
+                        .filter(Posuda.id == posuda_id)
+                        .update({'vrijeme_azuriranja': dt.now(),
+                                 'id_biljke': None})
+                        )
+    session.commit()
+
 def delete_pyposude(posuda_to_del: Posuda):
     session.delete(posuda_to_del)
     session.commit()

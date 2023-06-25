@@ -4,7 +4,7 @@ from models.biljka import Biljka
 from models.posuda import Posuda
 from models.korisnik import Korisnik
 from services.data_simulation import save_sync_data, simul_data_for_pyposuda
-from services.db_repo import get_user_by_username
+from services.db_repo import get_user_by_username, get_biljka_from_naziv, update_biljka_posude
 if __name__== '__main__':
     db_init()
     '''biljka1= Biljka('Macuhica', 'svjetlo')
@@ -46,3 +46,8 @@ if __name__== '__main__':
 
     posuda = get_pyposude_by_id(1)
     print(posuda.__dict__)
+
+    biljka_id= get_biljka_from_naziv('Macuhica')
+    
+    print(biljka_id)
+    update_biljka_posude(1,'p02kaktus', 'Kaktus')
