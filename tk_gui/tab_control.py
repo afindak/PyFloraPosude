@@ -2,6 +2,7 @@
 import tkinter as tk
 from tkinter import ttk
 from .tab_posude import TtkPosude
+from .tab_biljke import TtkBiljke
 from constants import FRM_HEIGHT, FRM_WIDTH
 
 class MainWindow(tk.Frame):
@@ -14,7 +15,7 @@ class MainWindow(tk.Frame):
 
         #create frames
         tab_posude = TtkPosude(tab_control)
-        frm_biljke = ttk.Frame(tab_control, width= FRM_WIDTH, height=FRM_HEIGHT)
+        frm_biljke = TtkBiljke(tab_control)
         frm_moj_profil = ttk.Frame(tab_control, width= FRM_WIDTH, height=FRM_HEIGHT)
 
         tab_posude.pack(fill='both', expand=True)
@@ -27,6 +28,7 @@ class MainWindow(tk.Frame):
         tab_control.add(frm_moj_profil, text= 'Moj profil')
 
         tab_posude.list_pyposude()
+        frm_biljke.list_pybiljke()
 
         
         

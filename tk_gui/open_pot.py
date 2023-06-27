@@ -1,11 +1,9 @@
 import tkinter as tk
 from tkinter import ttk
 from functools import partial
-from constants import BODY_FONT, BODY_PADX, BODY_PADY, ENT_PADY
+from constants import BODY_FONT, BODY_PADX, BODY_PADY
 from datetime import datetime as dt
 from services.db_repo import get_pybiljke_by_id, update_biljka_posude, take_out_plant, get_pyposude_by_id
-from io import BytesIO 
-from PIL import Image
 
 class OpenPot(tk.Frame):
     def __init__(self, master, posuda_id):

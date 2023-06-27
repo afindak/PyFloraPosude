@@ -81,3 +81,11 @@ img.show()
 Podaci za prijavu su afindak, algebra1
 Na ažuriraj se mijenja samo naziv posude ili biljke, a na sync simulirani podaci o tlaku, temperaturi...
 Ukoliko biljka koju zelimo postaviti ne postoji, ostati ce stara biljka u posudi
+
+tab za biljke:
+Za svaku biljku kreiramo grid frame (unutar kojeg su labele, lijevo podaci, desno slika)
+Frameove dodajemo pack jedan ispod drugoga u canvas Frame
+canvas frameovi se bindeaju skrolaju
+
+tab za posudu:
+stavi sve gumbe u frame koji ide na canvas frame

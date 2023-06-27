@@ -9,6 +9,7 @@ from .canvas_scroll import Scrollable
 from .open_pot import OpenPot
 from .open_image import OpenImage
 
+
 class TtkPosude(ttk.Frame):
     def __init__(self, master):
         super().__init__(master)
@@ -21,9 +22,7 @@ class TtkPosude(ttk.Frame):
  
         self.container.grid(column=0, row=0, columnspan=8,  sticky='EW')
         horizont_bar.grid(row=2, column=0, sticky=tk.EW)
-        self.container.configure(xscrollcommand= horizont_bar.set)
-        horizont_bar.configure(command= self.container.xview)
-
+        
         self.frm_container = tk.Frame(self.container, width=FRM_WIDTH, height=25)
         self.frm_container.grid(sticky= tk.NSEW, row= 0, column= 0, columnspan=8)
 
@@ -41,6 +40,7 @@ class TtkPosude(ttk.Frame):
 
         self.container.configure(scrollregion=self.frm_container.bbox(tk.ALL))
         self.container.configure(xscrollcommand= horizont_bar.set)
+        horizont_bar.configure(command= self.container.xview)
          
     def update_canvas(self, event):
             # if the new canvas's width (event.width) is larger than the content's 
@@ -53,18 +53,13 @@ class TtkPosude(ttk.Frame):
         self.grid_columnconfigure(0, weight=1)
         self.grid_columnconfigure(1, weight=2)
         frm_openpot = OpenPot( self, posuda_id)
-        frm_openpot.grid(row=4, column=0, padx=BODY_PADX, pady= BODY_PADY, sticky= 'NS')
+        frm_openpot.grid(row=4, column=0, padx=BODY_PADX, pady= BODY_PADY, sticky= 'W')
         
         btn_sync = ttk.Button(frm_openpot, text='SYNC', command= partial(self.sync_senzor_data, posuda_id))
-        btn_sync.grid(row= 8, column=0, padx=BODY_PADX, pady= BODY_PADY)
+        btn_sync.grid(row= 8, column=0, padx=BODY_PADX, pady= BODY_PADY, sticky= 'W')
 
-        posuda = get_pyposude_by_id(posuda_id)
-        if posuda.id_biljke is not None:
-            frm_openimage = OpenImage(self, posuda_id= posuda_id)
-            frm_openimage.grid(row=4, column=1, sticky='EW')
-        else:
-            self.pack_forget()
-
+        OpenImage(self, posuda_id= posuda_id).grid(row=4, column=1, sticky='EW')
+        
         #canvas= tk.Canvas(self, width= 100, height= 100)
         #canvas.grid(row=4, column=2, columnspan=3)
         #canvas.create_image(10,10, anchor=tk.NW, image=kaktus)
@@ -78,16 +73,16 @@ class TtkPosude(ttk.Frame):
 
     def add_new_pot(self):
         save_window = tk.Toplevel(self)
-        ttk.Label(save_window, text='Naziv posude').grid(row= 1, column=0, padx=BODY_PADX, pady= BODY_PADY)
+        ttk.Label(save_window, text='Naziv posude').grid(row= 1, column=0, padx=BODY_PADX, pady= BODY_PADY, sticky=tk.W)
         ent_naziv_posude_var = tk.StringVar()
-        tk.Entry(save_window, textvariable= ent_naziv_posude_var, font=BODY_FONT).grid(row= 1, column=1, padx=BODY_PADX, pady= BODY_PADY)
-        ttk.Label(save_window, text='ID biljke').grid(row= 2, column=0, padx=BODY_PADX, pady= BODY_PADY)
+        tk.Entry(save_window, textvariable= ent_naziv_posude_var, font=BODY_FONT).grid(row= 1, column=1, padx=BODY_PADX, pady= BODY_PADY, sticky=tk.W)
+        ttk.Label(save_window, text='ID biljke').grid(row= 2, column=0, padx=BODY_PADX, pady= BODY_PADY, sticky=tk.W)
         ent_id_biljke_var = tk.StringVar()
-        tk.Entry(save_window, textvariable= ent_id_biljke_var, font=BODY_FONT).grid(row= 2, column=1, padx=BODY_PADX, pady= BODY_PADY)
+        tk.Entry(save_window, textvariable= ent_id_biljke_var, font=BODY_FONT).grid(row= 2, column=1, padx=BODY_PADX, pady= BODY_PADY, sticky=tk.W)
         def save_pot():
             posuda = Posuda(ent_naziv_posude_var.get(),None,None,None,None,ent_id_biljke_var.get())
             insert_pyposude(posuda)
         btn_save_pot = ttk.Button(save_window, text='Spremi', command= save_pot)
-        btn_save_pot.grid(row= 8, column=0, padx=BODY_PADX, pady= BODY_PADY)
+        btn_save_pot.grid(row= 3, column=0, padx=BODY_PADX, pady= BODY_PADY, sticky=tk.W)
        
     
