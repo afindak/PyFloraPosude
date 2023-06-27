@@ -1,8 +1,6 @@
 import tkinter as tk
-from constants import BODY_FONT, BODY_PADX, BODY_PADY, ENT_PADY
 from services.db_repo import get_pybiljke_by_id, get_pyposude_by_id
 from PIL import Image, ImageTk
-from io import BytesIO 
 
 class OpenImage(tk.Frame):
      def __init__(self, master, posuda_id):
@@ -17,5 +15,3 @@ class OpenImage(tk.Frame):
 
             lbl_image = tk.Label(self, image = self.custom_image)
             lbl_image.grid(row=1, column=0, sticky= 'EW')
-            #lbl_image = tk.Label(self, image = frm_openimage.custom_image)
-            #lbl_image.grid(row=4, column=2, columnspan=3)
