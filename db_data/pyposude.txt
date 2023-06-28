@@ -14,4 +14,36 @@
         "razina_svjetla": "niska",
         "timestamp": "2023-06-27 08:48:24.412722"
     }
+}{
+    "1": {
+        "vlaga_zemlje": 23,
+        "ph_zemlje": 7.47,
+        "temp_zraka": 20.6,
+        "razina_svjetla": "srednja",
+        "timestamp": "2023-06-28 12:31:10.463837"
+    }
+}{
+    "1": {
+        "vlaga_zemlje": 30,
+        "ph_zemlje": 3.42,
+        "temp_zraka": 20.6,
+        "razina_svjetla": "visoka",
+        "timestamp": "2023-06-28 12:57:10.984962"
+    }
+}{
+    "4": {
+        "vlaga_zemlje": 90,
+        "ph_zemlje": 7.28,
+        "temp_zraka": 20.6,
+        "razina_svjetla": "visoka",
+        "timestamp": "2023-06-28 12:57:41.264228"
+    }
+}{
+    "2": {
+        "vlaga_zemlje": 25,
+        "ph_zemlje": 8.36,
+        "temp_zraka": 21.5,
+        "razina_svjetla": "visoka",
+        "timestamp": "2023-06-28 13:42:37.073058"
+    }
 }

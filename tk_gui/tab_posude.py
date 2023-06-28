@@ -1,7 +1,7 @@
 import tkinter as tk
 from tkinter import ttk
-from services.db_repo import get_pyposude, update_pyposude, insert_pyposude, get_pyposude_by_id
-from services.data_simulation import simul_data_for_pyposuda, save_sync_data
+from services.db_repo import get_pyposude, update_pyposude, insert_pyposude, get_pyposude_by_id, update_pybiljke, get_biljka_from_naziv
+from services.data_simulation import simul_data_for_pyposuda, save_sync_data, get_njega
 from functools import partial
 from constants import *
 from models.posuda import Posuda
@@ -69,6 +69,12 @@ class TtkPosude(ttk.Frame):
         vlaga_zemlje, ph_zemlje, temp_zraka, razina_svjetla = simul_data_for_pyposuda()
         save_sync_data(posuda_id, vlaga_zemlje, ph_zemlje, temp_zraka, razina_svjetla)
         update_pyposude(posuda_id, None, vlaga_zemlje, ph_zemlje, temp_zraka, razina_svjetla, None)
+        
+        posuda = get_pyposude_by_id(posuda_id)
+        biljka_id = posuda.id_biljke
+        if biljka_id:
+            njega = get_njega(posuda_id)
+            update_pybiljke(biljka_id, None, None, njega)
         self.open_pot(posuda_id)
 
     def add_new_pot(self):
@@ -76,12 +82,14 @@ class TtkPosude(ttk.Frame):
         ttk.Label(save_window, text='Naziv posude').grid(row= 1, column=0, padx=BODY_PADX, pady= BODY_PADY, sticky=tk.W)
         ent_naziv_posude_var = tk.StringVar()
         tk.Entry(save_window, textvariable= ent_naziv_posude_var, font=BODY_FONT).grid(row= 1, column=1, padx=BODY_PADX, pady= BODY_PADY, sticky=tk.W)
-        ttk.Label(save_window, text='ID biljke').grid(row= 2, column=0, padx=BODY_PADX, pady= BODY_PADY, sticky=tk.W)
-        ent_id_biljke_var = tk.StringVar()
-        tk.Entry(save_window, textvariable= ent_id_biljke_var, font=BODY_FONT).grid(row= 2, column=1, padx=BODY_PADX, pady= BODY_PADY, sticky=tk.W)
+        ttk.Label(save_window, text='Naziv biljke').grid(row= 2, column=0, padx=BODY_PADX, pady= BODY_PADY, sticky=tk.W)
+        ent_naziv_biljke_var = tk.StringVar()
+        tk.Entry(save_window, textvariable= ent_naziv_biljke_var, font=BODY_FONT).grid(row= 2, column=1, padx=BODY_PADX, pady= BODY_PADY, sticky=tk.W)
         def save_pot():
-            posuda = Posuda(ent_naziv_posude_var.get(),None,None,None,None,ent_id_biljke_var.get())
+            biljka_id = get_biljka_from_naziv(ent_naziv_biljke_var.get())
+            posuda = Posuda(ent_naziv_posude_var.get(),None,None,None,None,biljka_id)
             insert_pyposude(posuda)
+            save_window.destroy()
         btn_save_pot = ttk.Button(save_window, text='Spremi', command= save_pot)
         btn_save_pot.grid(row= 3, column=0, padx=BODY_PADX, pady= BODY_PADY, sticky=tk.W)
        

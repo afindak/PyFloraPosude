@@ -3,8 +3,8 @@ from services.db_repo import insert_pybiljke, insert_pyposude, update_pybiljke, 
 from models.biljka import Biljka
 from models.posuda import Posuda
 from models.korisnik import Korisnik
-from services.data_simulation import save_sync_data, simul_data_for_pyposuda
-from services.db_repo import get_user_by_username, get_biljka_from_naziv, update_biljka_posude
+from services.data_simulation import save_sync_data, simul_data_for_pyposuda,get_njega
+from services.db_repo import get_user_by_username, get_biljka_from_naziv, update_biljka_posude,get_posuda_biljke
 from io import BytesIO 
 from PIL import Image
 from tk_gui.open_image import OpenImage
@@ -45,11 +45,11 @@ if __name__== '__main__':
     user = get_user_by_username('afindak')
     print(user.ime)
     biljka2 = get_pybiljke_by_id(1)
-    biljka2.show_image()
-    file_biljke = get_pybiljke_by_id(1).show_image()
+   # biljka2.show_image()
+   # file_biljke = get_pybiljke_by_id(1).show_image()
     
-    image_file = Image.open(file_biljke).convert("RGB")
-    image_file.show()
+    #image_file = Image.open(file_biljke).convert("RGB")
+    #image_file.show()
 
     posuda = get_pyposude_by_id(1)
     print(posuda.__dict__)
@@ -58,3 +58,6 @@ if __name__== '__main__':
     
     print(biljka_id)
     #update_biljka_posude(1,'p02kaktus', 'Kaktus')
+
+    print(get_njega(1))
+    

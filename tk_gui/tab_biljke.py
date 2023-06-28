@@ -48,9 +48,11 @@ class TtkBiljke(ttk.Frame):
         ent_path_biljke_var = tk.StringVar()
         tk.Entry(save_window, textvariable= ent_path_biljke_var, font=BODY_FONT).grid(row= 2, column=1, padx=BODY_PADX, pady= BODY_PADY, sticky=tk.W)
         def spremi_biljku():
-            biljka = Biljka(ent_naziv_biljke_var,None)
-            biljka.add_image(path= ent_path_biljke_var)
+            biljka = Biljka(ent_naziv_biljke_var.get(), None)
+            biljka.add_image(path= ent_path_biljke_var.get())
             insert_pybiljke(biljka)
+            save_window.destroy()
         btn_spremi_biljku = ttk.Button(save_window, text='Spremi', command= spremi_biljku)
         btn_spremi_biljku.grid(row= 3, column=0, padx=BODY_PADX, pady= BODY_PADY, sticky=tk.W)
+        
 
