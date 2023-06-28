@@ -4,6 +4,7 @@ from sqlalchemy.orm import backref, relationship
 import base64
 from io import BytesIO 
 from PIL import Image
+import urllib
 
 class Biljka(Base):
     __tablename__ = 'pybiljke'
@@ -19,15 +20,17 @@ class Biljka(Base):
         self.njega = njega 
 
     def add_image(self, path):
-        try:
+        if 'http' in path:
+            raw_data = urllib.request.urlopen(path).read()
+            image = Image.open(BytesIO(raw_data))
+        else:
             image = open(path, 'rb') 
-            try:
-                image_read = image.read()
-                image_64_encode = base64.b64encode(image_read)
-            except:
-                raise Exception('Something went wrong when encoding image')
+        try:
+            image_read = image.read()
+            image_64_encode = base64.b64encode(image_read)
         except:
-                raise Exception('Something went wrong when opening image')
+            raise Exception('Something went wrong when encoding image')
+       
         image_encoded = image_64_encode.decode('utf-8')
         self.slika = image_encoded
 
