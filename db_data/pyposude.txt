@@ -46,4 +46,12 @@
         "razina_svjetla": "visoka",
         "timestamp": "2023-06-28 13:42:37.073058"
     }
+}{
+    "1": {
+        "vlaga_zemlje": 71,
+        "ph_zemlje": 8.44,
+        "temp_zraka": 20.7,
+        "razina_svjetla": "srednja",
+        "timestamp": "2023-06-28 21:34:53.653897"
+    }
 }

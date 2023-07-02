@@ -4,6 +4,9 @@ from functools import partial
 from constants import BODY_FONT, BODY_PADX, BODY_PADY
 from datetime import datetime as dt
 from services.db_repo import get_pybiljke_by_id, update_biljka_posude, take_out_plant, get_pyposude_by_id
+import matplotlib.pyplot as plt
+from matplotlib.figure import Figure
+import pandas as pd
 
 class OpenPot(tk.Frame):
     def __init__(self, master, posuda_id):
@@ -51,8 +54,9 @@ class OpenPot(tk.Frame):
         
         ttk.Label(self, text='Biljka').grid(row= 7, column=0, padx=BODY_PADX, pady= BODY_PADY, sticky=tk.W)
         ent_biljka_var= tk.StringVar()
-        if posuda.id_biljke is not None:
-            naziv_biljke = get_pybiljke_by_id(posuda.id_biljke).naziv
+        l_id_biljke = posuda.id_biljke
+        if l_id_biljke is not None:
+            naziv_biljke = get_pybiljke_by_id(l_id_biljke).naziv
             ent_biljka_var.set(naziv_biljke)
         tk.Entry(self, textvariable= ent_biljka_var, font=BODY_FONT, width=10).grid(row= 7, column=1, padx=BODY_PADX, pady= BODY_PADY)
 
@@ -65,4 +69,14 @@ class OpenPot(tk.Frame):
         btn_update_pot = ttk.Button(self, text='Ažuriraj/ Isprazni', command= partial(update_pot, posuda_id))
         btn_update_pot.grid(row= 8, column= 1, padx= BODY_PADX, pady= BODY_PADY)
 
+        self.figure = Figure(figsize=(3,3),dpi=100)
 
+    def create_graph(self, posuda_id):
+            senzordata_df = pd.read_csv('db_data\pyposude.csv')
+            var_graf = senzordata_df[['vlaga_zemlje','timestamp']].groupby('timestamp', as_index=False).sum() #,'ph_zemlje','temp_zraka',
+            plot = self.figure.add_subplot(1,1,1)
+            plot.hist(var_graf, 90)
+            return plot.plot(var_graf['timestamp'], var_graf['vlaga_zemlje'])
+            #plt.hist(var_graf, 25)
+
+                

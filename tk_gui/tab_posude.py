@@ -8,7 +8,8 @@ from models.posuda import Posuda
 from .canvas_scroll import Scrollable
 from .open_pot import OpenPot
 from .open_image import OpenImage
-
+from PIL import Image, ImageTk
+from matplotlib.backends.backend_tkagg import FigureCanvasTkAgg
 
 class TtkPosude(ttk.Frame):
     def __init__(self, master):
@@ -58,7 +59,11 @@ class TtkPosude(ttk.Frame):
         btn_sync = ttk.Button(frm_openpot, text='SYNC', command= partial(self.sync_senzor_data, posuda_id))
         btn_sync.grid(row= 8, column=0, padx=BODY_PADX, pady= BODY_PADY, sticky= 'W')
 
-        OpenImage(self, posuda_id= posuda_id).grid(row=4, column=1, sticky='EW')
+        graph = frm_openpot.create_graph(posuda_id)
+        canvas = FigureCanvasTkAgg(frm_openpot.figure, self)
+        canvas.get_tk_widget().grid(row=4, column=1, sticky= 'EW')
+
+        #OpenImage(self, posuda_id= posuda_id).grid(row=4, column=1, sticky='EW')
         
         #canvas= tk.Canvas(self, width= 100, height= 100)
         #canvas.grid(row=4, column=2, columnspan=3)

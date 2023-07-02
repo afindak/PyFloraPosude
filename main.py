@@ -7,6 +7,7 @@ from services.data_simulation import save_sync_data, simul_data_for_pyposuda,get
 from services.db_repo import get_user_by_username, get_biljka_from_naziv, update_biljka_posude,get_posuda_biljke
 from io import BytesIO 
 from PIL import Image
+import json
 from tk_gui.open_image import OpenImage
 if __name__== '__main__':
     db_init()
@@ -51,13 +52,12 @@ if __name__== '__main__':
     #image_file = Image.open(file_biljke).convert("RGB")
     #image_file.show()
 
-    posuda = get_pyposude_by_id(1)
-    print(posuda.__dict__)
-
-    biljka_id= get_biljka_from_naziv('Macuhica')
     
-    print(biljka_id)
     #update_biljka_posude(1,'p02kaktus', 'Kaktus')
 
-    print(get_njega(1))
-    
+
+def create_graph(posuda_id):
+            with open('db_data\pyposude.txt', 'r') as file_reader:
+                var_open_pot = json.load(file_reader)
+            print(var_open_pot[1]['vlaga_zemlje'])
+create_graph(1)
