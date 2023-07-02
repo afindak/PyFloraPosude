@@ -1,10 +1,8 @@
 from random import uniform, randint, choice
 import requests
 from constants import URL
-from models.biljka import Biljka
-from services.db_repo import get_posuda_biljke, get_pyposude_by_id
-from datetime import datetime
-import json
+from services.db_repo import get_pyposude_by_id
+from datetime import datetime as dt
 import csv
 
 def get_temperature()-> float:
@@ -47,10 +45,10 @@ def save_sync_data(posuda_id, vlaga_zemlje, ph_zemlje, temp_zraka, razina_svjetl
                                  'razina_svjetla': razina_svjetla,
                                  'timestamp': str(datetime.now())}
     json.dump(sync_data, file_writer, indent=4)'''
-    row = [posuda_id, vlaga_zemlje, ph_zemlje, temp_zraka, razina_svjetla]
+    row = [posuda_id, vlaga_zemlje, ph_zemlje, temp_zraka, razina_svjetla, str(dt.now())]
     with open('db_data\pyposude.csv', 'a', encoding='UTF8', newline='') as file_writer:
         writer = csv.writer(file_writer)
-        #header = ['vlaga_zemlje', 'ph_zemlje', 'temp_zraka', 'razina_svjetlosti', 'timestamp']
+        #header = ['posuda', 'vlaga_zemlje', 'ph_zemlje', 'temp_zraka', 'razina_svjetlosti', 'timestamp']
         #writer.writerow(header)
         writer.writerow(row)
 

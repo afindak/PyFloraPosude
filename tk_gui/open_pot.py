@@ -4,7 +4,6 @@ from functools import partial
 from constants import BODY_FONT, BODY_PADX, BODY_PADY
 from datetime import datetime as dt
 from services.db_repo import get_pybiljke_by_id, update_biljka_posude, take_out_plant, get_pyposude_by_id
-import matplotlib.pyplot as plt
 from matplotlib.figure import Figure
 import pandas as pd
 
@@ -76,7 +75,7 @@ class OpenPot(tk.Frame):
             var_graf = senzordata_df[['vlaga_zemlje','timestamp']].groupby('timestamp', as_index=False).sum() #,'ph_zemlje','temp_zraka',
             plot = self.figure.add_subplot(1,1,1)
             plot.hist(var_graf, 90)
-            return plot.plot(var_graf['timestamp'], var_graf['vlaga_zemlje'])
+            return plot.plot(senzordata_df['timestamp'], senzordata_df['vlaga_zemlje'])
             #plt.hist(var_graf, 25)
 
                 

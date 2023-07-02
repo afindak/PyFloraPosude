@@ -5,10 +5,7 @@ from services.data_simulation import simul_data_for_pyposuda, save_sync_data, ge
 from functools import partial
 from constants import *
 from models.posuda import Posuda
-from .canvas_scroll import Scrollable
 from .open_pot import OpenPot
-from .open_image import OpenImage
-from PIL import Image, ImageTk
 from matplotlib.backends.backend_tkagg import FigureCanvasTkAgg
 
 class TtkPosude(ttk.Frame):
