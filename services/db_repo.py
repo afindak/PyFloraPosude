@@ -10,6 +10,14 @@ def get_user_by_username(username):
             .filter(Korisnik.username == username)
             .one_or_none())
 
+def update_user(username, ime, prezime, password):
+    (session.query(Korisnik)
+        .filter(Korisnik.username == username)
+        .update({'ime': func.coalesce(ime, Korisnik.ime),
+                 'prezime': func.coalesce(prezime, Korisnik.prezime),
+                 'password': func.coalesce(password, Korisnik.password)}))
+    session.commit()
+
 def get_all_pybiljke()-> list[Biljka]:
     return (session.query(Biljka).all())
 

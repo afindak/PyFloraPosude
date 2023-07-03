@@ -15,7 +15,7 @@ class TtkPosude(ttk.Frame):
         
 
     def list_pyposude(self):
-        self.container = tk.Canvas(self, bg='#4A7A8C', width=FRM_WIDTH, height=25 )
+        self.container = tk.Canvas(self, width=FRM_WIDTH, height=25 )
         horizont_bar = tk.Scrollbar(self, orient='horizontal')
  
         self.container.grid(column=0, row=0, columnspan=8,  sticky='EW')

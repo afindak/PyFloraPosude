@@ -71,10 +71,11 @@ class OpenPot(tk.Frame):
         self.figure = Figure(figsize=(3,3),dpi=100)
 
     def create_graph(self, posuda_id):
-            senzordata_df = pd.read_csv('db_data\pyposude.csv')
-            var_graf = senzordata_df[['vlaga_zemlje','timestamp']].groupby('timestamp', as_index=False).sum() #,'ph_zemlje','temp_zraka',
+            senzordata_df = pd.read_csv('db_data\pyposude.csv', sep=',')
+            senzordata_df = senzordata_df.loc[(senzordata_df['posuda'] == posuda_id)]
+            #var_graf = senzordata_df[['vlaga_zemlje','timestamp']].groupby('timestamp', as_index=False).sum() #,'ph_zemlje','temp_zraka',
             plot = self.figure.add_subplot(1,1,1)
-            plot.hist(var_graf, 90)
+            #plot.hist(senzordata_df, 90)
             return plot.plot(senzordata_df['timestamp'], senzordata_df['vlaga_zemlje'])
             #plt.hist(var_graf, 25)
 

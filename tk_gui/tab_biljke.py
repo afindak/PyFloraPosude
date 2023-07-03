@@ -20,7 +20,7 @@ class TtkBiljke(ttk.Frame):
         for biljka in get_all_pybiljke():
             frm_biljka = tk.Frame(frm_container.frm_scrollable, width= FRM_WIDTH, height=100)
             frm_biljka.pack()
-            frm_biljka.grid_columnconfigure((0,1), weight=3)
+            frm_biljka.grid_columnconfigure((0,1), weight=1)
 
             lbl_biljka = tk.Label(frm_biljka, text=f'Naziv biljke: {biljka.naziv}')
             lbl_biljka.grid(row= 1, column=0, padx=BODY_PADX, pady= BODY_PADY, sticky=tk.W)

@@ -3,6 +3,7 @@ import tkinter as tk
 from tkinter import ttk
 from .tab_posude import TtkPosude
 from .tab_biljke import TtkBiljke
+from .tab_moj_profil import TtkMojProfil
 from constants import FRM_HEIGHT, FRM_WIDTH
 
 class MainWindow(tk.Frame):
@@ -10,13 +11,13 @@ class MainWindow(tk.Frame):
         super().__init__(master)
 
         # create a notebook
-        tab_control = ttk.Notebook(self)
+        tab_control = ttk.Notebook(self, width= FRM_WIDTH, height=FRM_HEIGHT)
         tab_control.pack(expand=True, pady=5, fill='y')
 
         #create frames
         tab_posude = TtkPosude(tab_control)
         frm_biljke = TtkBiljke(tab_control)
-        frm_moj_profil = ttk.Frame(tab_control, width= FRM_WIDTH, height=FRM_HEIGHT)
+        frm_moj_profil = TtkMojProfil(tab_control)
 
         tab_posude.pack(fill='both', expand=True)
         frm_biljke.pack(fill='both', expand=True)
