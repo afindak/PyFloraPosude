@@ -54,7 +54,7 @@ class OpenPot(tk.Frame):
         ttk.Label(self, text='Biljka').grid(row= 7, column=0, padx=BODY_PADX, pady= BODY_PADY, sticky=tk.W)
         ent_biljka_var= tk.StringVar()
         l_id_biljke = posuda.id_biljke
-        if l_id_biljke is not None:
+        if (l_id_biljke is not None) and l_id_biljke!= '':
             naziv_biljke = get_pybiljke_by_id(l_id_biljke).naziv
             ent_biljka_var.set(naziv_biljke)
         tk.Entry(self, textvariable= ent_biljka_var, font=BODY_FONT, width=10).grid(row= 7, column=1, padx=BODY_PADX, pady= BODY_PADY)
