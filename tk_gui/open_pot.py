@@ -4,8 +4,9 @@ from functools import partial
 from constants import BODY_FONT, BODY_PADX, BODY_PADY
 from datetime import datetime as dt
 from services.db_repo import get_pybiljke_by_id, update_biljka_posude, take_out_plant, get_pyposude_by_id
-from matplotlib.figure import Figure
 import pandas as pd
+import matplotlib.dates as mdates
+import matplotlib.pyplot as plt
 
 class OpenPot(tk.Frame):
     def __init__(self, master, posuda_id):
@@ -68,15 +69,37 @@ class OpenPot(tk.Frame):
         btn_update_pot = ttk.Button(self, text='Ažuriraj/ Isprazni', command= partial(update_pot, posuda_id))
         btn_update_pot.grid(row= 8, column= 1, padx= BODY_PADX, pady= BODY_PADY)
 
-        self.figure = Figure(figsize=(3,3),dpi=100)
+        self.figure = plt.figure(figsize=(3,3),dpi=100)
 
     def create_graph(self, posuda_id):
             senzordata_df = pd.read_csv('db_data\pyposude.csv', sep=',')
             senzordata_df = senzordata_df.loc[(senzordata_df['posuda'] == posuda_id)]
-            #var_graf = senzordata_df[['vlaga_zemlje','timestamp']].groupby('timestamp', as_index=False).sum() #,'ph_zemlje','temp_zraka',
-            plot = self.figure.add_subplot(1,1,1)
-            #plot.hist(senzordata_df, 90)
-            return plot.plot(senzordata_df['timestamp'], senzordata_df['vlaga_zemlje'])
-            #plt.hist(var_graf, 25)
+            senzordata_df['timestamp'] = pd.to_datetime(senzordata_df['timestamp'])
 
-                
+            #self.figure, (graf1, graf2) = plt.subplots(1,2)
+            graf1 = plt.subplot2grid((2,2),(0,0))
+            graf2 = plt.subplot2grid((2,2),(0,1))
+            graf3 = plt.subplot2grid((2,2),(1,0))
+           
+            graf1.set_ylabel('vlaga zemlje', fontsize = 8)
+            graf2.set_ylabel('temperatura', fontsize = 8)
+            graf3.set_ylabel('pH zemlje', fontsize = 8)
+
+            graf1.plot(senzordata_df['timestamp'], senzordata_df['vlaga_zemlje'])
+            locator = mdates.AutoDateLocator(minticks=3, maxticks=7)
+            formatter = mdates.ConciseDateFormatter(locator) #mdates.DateFormatter('%d-%m-%Y') 
+            graf1.xaxis.set_major_locator(locator)
+            graf1.xaxis.set_major_formatter(formatter)
+            # set font and rotation for date tick labels
+            plt.gcf().autofmt_xdate()
+
+            graf2.plot(senzordata_df['timestamp'], senzordata_df['temp_zraka'])
+            graf2.xaxis.set_major_locator(locator)
+            graf2.xaxis.set_major_formatter(formatter)
+
+            graf3.plot(senzordata_df['timestamp'], senzordata_df['ph_zemlje'])
+            graf3.xaxis.set_major_locator(locator)
+            graf3.xaxis.set_major_formatter(formatter)
+
+            plt.tight_layout(pad=0.4, w_pad=0.5, h_pad=1.0)
+            return (self.figure, graf1, graf2, graf3)

@@ -61,12 +61,10 @@ class TtkPosude(ttk.Frame):
         canvas.get_tk_widget().grid(row=4, column=1, sticky= 'EW')
 
         #OpenImage(self, posuda_id= posuda_id).grid(row=4, column=1, sticky='EW')
-        
         #canvas= tk.Canvas(self, width= 100, height= 100)
         #canvas.grid(row=4, column=2, columnspan=3)
         #canvas.create_image(10,10, anchor=tk.NW, image=kaktus)
-            
-   
+
     def sync_senzor_data(self, posuda_id):
         vlaga_zemlje, ph_zemlje, temp_zraka, razina_svjetla = simul_data_for_pyposuda()
         save_sync_data(posuda_id, vlaga_zemlje, ph_zemlje, temp_zraka, razina_svjetla)
