@@ -42,8 +42,8 @@ def get_pyposude_by_id(id : Posuda.id):
            .one_or_none())
             
 def get_posuda_biljke(biljka_id: Biljka.id):
-    return (session.query(Biljka) #.select_from(Biljka)
-            .join(Posuda) #Posuda)
+    return (session.query(Biljka) 
+            .join(Posuda) 
             .filter(Biljka.id == biljka_id)
             .all())
 

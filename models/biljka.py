@@ -36,8 +36,6 @@ class Biljka(Base):
 
     def show_image(self):
         file_slike = BytesIO(base64.decodebytes(bytes(self.slika, "utf-8")))
-        #foto = Image.open(file_slike).convert("RGB")
         return file_slike
-        #foto.show() 
 
          

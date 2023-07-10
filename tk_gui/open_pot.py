@@ -80,14 +80,14 @@ class OpenPot(tk.Frame):
             graf1 = plt.subplot2grid((2,2),(0,0))
             graf2 = plt.subplot2grid((2,2),(0,1))
             graf3 = plt.subplot2grid((2,2),(1,0))
-           
+            
             graf1.set_ylabel('vlaga zemlje', fontsize = 8)
             graf2.set_ylabel('temperatura', fontsize = 8)
             graf3.set_ylabel('pH zemlje', fontsize = 8)
 
             graf1.plot(senzordata_df['timestamp'], senzordata_df['vlaga_zemlje'])
             locator = mdates.AutoDateLocator(minticks=3, maxticks=7)
-            formatter = mdates.ConciseDateFormatter(locator) #mdates.DateFormatter('%d-%m-%Y') 
+            formatter = mdates.ConciseDateFormatter(locator) 
             graf1.xaxis.set_major_locator(locator)
             graf1.xaxis.set_major_formatter(formatter)
             # set font and rotation for date tick labels

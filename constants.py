@@ -18,6 +18,7 @@ BODY_PADX = 10
 BODY_PADY = (5, 10)
 BODY_FONT= ('Arial',10)
 
+FIG_PADY = (0, 5)
 BTN_FONT= ('Verdana',10)
 
 INIT_WINDOW_SIZE = '800x450'

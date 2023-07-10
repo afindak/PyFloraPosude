@@ -1,14 +1,7 @@
 import tkinter as tk
 from constants import *
 from services.db_repo import get_user_by_username
-from .tab_control import MainWindow
-
-''''class MyProfile():
-    def __init__(self, username = '', password = '', is_loggedin = False):
-        self.username = username
-        self.password = password
-        self.is_loggedin = is_loggedin'''
-
+from .tab_control import TabControl
 
 class FrmLogIn(tk.Frame):
     def __init__(self, master )-> None:
@@ -36,12 +29,8 @@ class FrmLogIn(tk.Frame):
 
     def all_children (self) :
         _list = self.master.master.winfo_children()
-        '''for item in _list :
-            if self.master.master.winfo_children() :
-                _list.extend(item.winfo_children())'''
         return _list
 
-        
     def logging(self):
         username = self.ent_username_var.get()
         password = self.ent_password_var.get()
@@ -54,7 +43,7 @@ class FrmLogIn(tk.Frame):
                 widget_list = [item.pack_forget() for item in self.all_children()]
                 new_frame = tk.Frame(self.master.master, bg='black')
                 new_frame.pack(padx=BODY_PADX, pady=BODY_PADY, fill='y')
-                tab_frame = MainWindow(new_frame)
+                tab_frame = TabControl(new_frame)
                 tab_frame.pack(padx= BODY_PADX, pady= BODY_PADY, fill='both')
             else:
                 self.lbl_login_failed.grid(row=3, column=1, padx=BODY_PADX, pady= BODY_PADY, sticky='e')

@@ -12,7 +12,6 @@ class TtkPosude(ttk.Frame):
     def __init__(self, master):
         super().__init__(master)
         self.packing = []
-        
 
     def list_pyposude(self):
         self.container = tk.Canvas(self, width=FRM_WIDTH, height=25 )
@@ -32,20 +31,16 @@ class TtkPosude(ttk.Frame):
             self.packing.append(btn_open_pot)
 
         self.window = self.container.create_window((0, 0), window= self.frm_container, anchor=tk.NW)
-
         self.update_idletasks()
         self.container.bind('<Configure>', self.update_canvas)
-
         self.container.configure(scrollregion=self.frm_container.bbox(tk.ALL))
         self.container.configure(xscrollcommand= horizont_bar.set)
         horizont_bar.configure(command= self.container.xview)
          
     def update_canvas(self, event):
-            # if the new canvas's width (event.width) is larger than the content's 
-            # minimum width (content.winfo_reqwidth()) then make canvas.frame the 
-            # same width as the canvas
         if event.width > self.frm_container.winfo_reqwidth():
             self.container.itemconfigure(self.window, width=event.width)
+
     def open_pot(self, posuda_id):
         self.pack_forget ()    
         self.grid_columnconfigure(0, weight=1)

@@ -6,7 +6,7 @@ from .tab_biljke import TtkBiljke
 from .tab_moj_profil import TtkMojProfil
 from constants import FRM_HEIGHT, FRM_WIDTH
 
-class MainWindow(tk.Frame):
+class TabControl(tk.Frame):
     def __init__(self,master)-> None:
         super().__init__(master)
 
@@ -29,7 +29,16 @@ class MainWindow(tk.Frame):
         tab_control.add(frm_moj_profil, text= 'Moj profil')
 
         tab_posude.list_pyposude()
-        frm_biljke.list_pybiljke()
+
+        def on_tab_change(event):
+            tab = event.widget.tab('current')
+            if tab['text'] == 'Biljke':
+                for child in frm_biljke.winfo_children():
+                    child.destroy()
+                frm_biljke.update()
+                frm_biljke.list_pybiljke()
+
+        tab_control.bind("<<NotebookTabChanged>>", on_tab_change)
 
         
         

@@ -9,8 +9,6 @@ class TtkMojProfil(ttk.Frame):
         super().__init__(master)
 
         self.user = get_user_by_username('afindak')
-
-        #self.grid_columnconfigure((0,1), weight=1)
         
         lbl_username = tk.Label(self, text= 'Username', font= BODY_FONT)
         lbl_username.grid(row= 1, column= 0, padx= BODY_PADX, pady= BODY_PADY, sticky= tk.W)

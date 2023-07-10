@@ -16,7 +16,7 @@ class OpenImage(tk.Frame):
         if l_biljka_id is not None:
             file_biljke = get_pybiljke_by_id(l_biljka_id).show_image()
             image_file = Image.open(file_biljke).convert("RGB")
-            resized = image_file.resize((150, 150), Image.ANTIALIAS)
+            resized = image_file.resize((180, 170), Image.ANTIALIAS)
             self.custom_image =  ImageTk.PhotoImage(resized)
             #self.resized= custom_image.subsample(3,3)
 

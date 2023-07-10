@@ -38,18 +38,9 @@ def get_njega(posuda_id: int = None):
     return njega
 
 def save_sync_data(posuda_id, vlaga_zemlje, ph_zemlje, temp_zraka, razina_svjetla):
-    '''sync_data = dict()
-    sync_data [f'{posuda_id}']= {'vlaga_zemlje': vlaga_zemlje,
-                                 'ph_zemlje': ph_zemlje,
-                                 'temp_zraka': temp_zraka,
-                                 'razina_svjetla': razina_svjetla,
-                                 'timestamp': str(datetime.now())}
-    json.dump(sync_data, file_writer, indent=4)'''
     row = [posuda_id, vlaga_zemlje, ph_zemlje, temp_zraka, razina_svjetla, str(dt.now())]
     with open('db_data\pyposude.csv', 'a', encoding='UTF8', newline='') as file_writer:
         writer = csv.writer(file_writer)
-        #header = ['posuda', 'vlaga_zemlje', 'ph_zemlje', 'temp_zraka', 'razina_svjetlosti', 'timestamp']
-        #writer.writerow(header)
         writer.writerow(row)
 
         

@@ -1,25 +1,37 @@
+Podaci za prijavu su afindak, algebra1
+Lozinka se može mijenjati na tabu Moj profil.
+
+Tab Biljke:
+Za svaku biljku kreiramo grid frame (unutar kojeg su labele, lijevo podaci, desno slika)
+Frameove dodajemo pack jedan ispod drugoga u canvas Frame,
+canvas frameovi se bindeaju i skrolaju
+Nova biljka se dodaje na 'Dodaj biljku', a podaci o njezi biljke se azuriraju ovisno o simuliranim podacima sa senzora posude. 
+Ako biljka nije dodana ni u jednu posudu, podatak o njezi je prazan. 
+
+tab Posude:
+Postavimo sve gumbe posuda u frame koji ide na canvas frame i scrolla se horizontalno. Klikom na gumb otvaraju se podaci o posudi.
+Na 'Ažuriraj/Isprazni' se mijenja naziv posude ili u posudu dodaje/ isprazni biljka, a na 'sync' se simuliraju i osvježe podaci o vlazi, temperaturi, ph i svjetlu
+(skripta je services.data_simulation), temperatura se dohvati iz api.open-meteo.com
+Prvo je potrebno dodati biljku na tabu biljaka, a tek onda joj pridružiti posudu na tabu posuda.
+Ukoliko biljka koju zelimo postaviti ne postoji, ostati ce stara biljka u posudi. Posuda može biti i prazna.
+Spremamo simulirane podatke o tlaku, temp, vlazi u .csv file po datumu i id-u posude, te se svakim 'syncom' novo simulirani podatak doda na graf. 
+Imamo 3 grafa (temp, vlaga i ph ovisno o datumu osvježavanja posude).
+
+Za dodavanje nove posude/ biljke se otvara novi prozorčić Toplevel, koji nakon akcije dodavanja nestaje.
+
 
 Biljke:
 a)
 ID - NUMBER
 NAZIV - STRING
 SLIKA - STRING
-    # Get the image
-    image = open(path, 'rb')
-    image_read = image.read()
+    # Get image
+    # Show image
+NJEGA - STRING
 
-    # Get the Byte-Version of the image
-    image_64_encode = base64.b64encode(image_read)
-
-    # Convert it to a readable utf-8 code (a String)
-    image_encoded = image_64_encode.decode('utf-8')
-
-    return image_encoded
-NJEGA STRING
 b)
-1. insert nove biljke
-2. update biljke(id)
-3. delete biljke (id)
+1. dodavanje nove biljke
+2. get_all_pybiljke, get_pybiljke_by_id
 
 
 Posude:
@@ -34,14 +46,20 @@ TEMP_ZRAKA
 VRIJEME_AZURIRANJA
 
 b)
-1. napuni posudu (insert u posudu)
-    1.1. dohvati podatke sa senzora (vlage, ph, svjetla)
-2. popis posuda( filter po puna/ prazna, default = puna)
+tk_gui -> tab_posude.py, open_pot.py
+1. dodaj novu posudu (insert pyposude)
+2. popis posuda
     klikom na posudu otvara se:
 3. podaci o posudi(id_posude)
 4. promjena statusa posude:
-    delete posude,
+    promijeni/ isprazni biljku
     update posude(id_biljke)
+5. napuni posudu (update posude) -> services.data_simulation.py
+    5.1. dohvati podatke sa senzora (vlage, ph, svjetla)
+    5.2. dohvati temp. s open meteo
+    5.3. spremi podatke u .csv
+6. crtanje grafova
+
 Korisnici:
 a)
 ID - NUMBER
@@ -50,42 +68,3 @@ PREZIME - STRING
 USERNAME - STRING
 PASSWORD - STRING
 
-pomoc:
-def editObject(object_id, **kwargs):
-
-    object = session.query(Object).filter_by(id = object_id).one()
-
-    for attr, value in kwargs.iteritems():
-        if value:
-            setattr(object, attr, value)
-
-    session.add(object)
-    session.commit()
-
-
-import base64
-
-with open("yourfile.ext", "rb") as image_file:
-    encoded_string = base64.b64encode(image_file.read())
-
-import cStringIO
-import PIL.Image
-
-# assume data contains your decoded image
-file_like = cStringIO.StringIO(data)
-
-img = PIL.Image.open(file_like)
-img.show()    
-
-
-Podaci za prijavu su afindak, algebra1
-Na ažuriraj se mijenja samo naziv posude ili biljke, a na sync simulirani podaci o tlaku, temperaturi...
-Ukoliko biljka koju zelimo postaviti ne postoji, ostati ce stara biljka u posudi
-
-tab za biljke:
-Za svaku biljku kreiramo grid frame (unutar kojeg su labele, lijevo podaci, desno slika)
-Frameove dodajemo pack jedan ispod drugoga u canvas Frame
-canvas frameovi se bindeaju skrolaju
-
-tab za posudu:
-stavi sve gumbe u frame koji ide na canvas frame

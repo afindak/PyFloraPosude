@@ -1,7 +1,6 @@
 import tkinter as tk
 from constants import *
 from tk_gui.frm_login import *
-#from .frm_login import MyProfile
 
 class HomeWindow(tk.Tk):
     def __init__(self)-> None:
