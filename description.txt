@@ -1,4 +1,6 @@
 Podaci za prijavu su afindak, algebra1
+Skripta za pokretanje: tk_main.py
+
 Lozinka se može mijenjati na tabu Moj profil.
 
 Tab Biljke:
@@ -7,6 +9,9 @@ Frameove dodajemo pack jedan ispod drugoga u canvas Frame,
 canvas frameovi se bindeaju i skrolaju
 Nova biljka se dodaje na 'Dodaj biljku', a podaci o njezi biljke se azuriraju ovisno o simuliranim podacima sa senzora posude. 
 Ako biljka nije dodana ni u jednu posudu, podatak o njezi je prazan. 
+tk_gui -> tab_biljke.py
+models -> biljka.py
+services -> db_repo
 
 tab Posude:
 Postavimo sve gumbe posuda u frame koji ide na canvas frame i scrolla se horizontalno. Klikom na gumb otvaraju se podaci o posudi.
@@ -16,7 +21,8 @@ Prvo je potrebno dodati biljku na tabu biljaka, a tek onda joj pridružiti posud
 Ukoliko biljka koju zelimo postaviti ne postoji, ostati ce stara biljka u posudi. Posuda može biti i prazna.
 Spremamo simulirane podatke o tlaku, temp, vlazi u .csv file po datumu i id-u posude, te se svakim 'syncom' novo simulirani podatak doda na graf. 
 Imamo 3 grafa (temp, vlaga i ph ovisno o datumu osvježavanja posude).
-
+tk_gui -> tab_posude.py, open_pot.py 
+models -> posuda.py
 Za dodavanje nove posude/ biljke se otvara novi prozorčić Toplevel, koji nakon akcije dodavanja nestaje.
 
 
