@@ -1,6 +1,6 @@
 import tkinter as tk
 from tkinter import ttk
-from services.db_repo import get_pyposude, update_pyposude, insert_pyposude, get_pyposude_by_id, update_pybiljke, get_biljka_from_naziv, get_all_pybiljke
+from services.db_repo import get_pyposude, update_pyposude, insert_pyposude, get_pyposude_by_id, update_pybiljke, get_biljka_from_naziv, get_all_pybiljke, delete_pyposude
 from services.data_simulation import simul_data_for_pyposuda, save_sync_data, get_njega
 from functools import partial
 from constants import *
@@ -58,6 +58,10 @@ class TtkPosude(ttk.Frame):
         btn_sync = ttk.Button(frm_openpot, text='SYNC', command= partial(self.sync_senzor_data, posuda_id))
         btn_sync.grid(row= 8, column=0, padx=BODY_PADX, pady= BODY_PADY, sticky= 'W')
 
+        btn_del = ttk.Button(frm_openpot, text='Izbriši', command= partial(self.delete_pot, posuda_id))
+        btn_del.grid(row= 9, column=0, padx=BODY_PADX, pady= BODY_PADY, sticky= 'W')
+
+
         graph = frm_openpot.create_graph(posuda_id)
         canvas = FigureCanvasTkAgg(frm_openpot.figure, self)
         canvas.get_tk_widget().grid(row=4, column=1, sticky= 'EW')
@@ -107,5 +111,13 @@ class TtkPosude(ttk.Frame):
         btn_save_pot = ttk.Button(save_window, text='Spremi', command= save_pot)
         btn_save_pot.grid(row= 3, column=0, padx=BODY_PADX, pady= BODY_PADY, sticky=tk.W)
 
-       
-    
+    def delete_pot(self, id_posude):
+        for r in self.packing:
+            if r[0] == id_posude:
+                l_button = r[1]
+                l_button.destroy()
+                self.packing.remove(r)
+
+        posuda = get_pyposude_by_id(id_posude)
+        delete_pyposude(posuda)
+            
