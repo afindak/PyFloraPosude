@@ -1,6 +1,6 @@
 import tkinter as tk
 from tkinter import ttk
-from services.db_repo import get_pyposude, update_pyposude, insert_pyposude, get_pyposude_by_id, update_pybiljke, get_biljka_from_naziv
+from services.db_repo import get_pyposude, update_pyposude, insert_pyposude, get_pyposude_by_id, update_pybiljke, get_biljka_from_naziv, get_all_pybiljke
 from services.data_simulation import simul_data_for_pyposuda, save_sync_data, get_njega
 from functools import partial
 from constants import *
@@ -12,6 +12,7 @@ class TtkPosude(ttk.Frame):
     def __init__(self, master):
         super().__init__(master)
         self.packing = []
+        self.len_posude = 1
 
     def list_pyposude(self):
         self.container = tk.Canvas(self, width=FRM_WIDTH, height=25 )
@@ -26,9 +27,10 @@ class TtkPosude(ttk.Frame):
         btn_add_pot = ttk.Button(self.frm_container, text='Dodaj posudu', command= self.add_new_pot)
         btn_add_pot.grid(row= 0, column= 0, padx= BODY_PADX, pady= BODY_PADY)
         for i, posude in enumerate(get_pyposude(True)):
-            btn_open_pot = ttk.Button(self.frm_container,text=f'{posude.naziv}', command=partial(self.open_pot, posude.id))
-            btn_open_pot.grid(row= 0, column= f'{i+1}', padx=BODY_PADX, pady= BODY_PADY, sticky='e')
-            self.packing.append(btn_open_pot)
+            self.btn_open_pot = ttk.Button(self.frm_container,text=f'{posude.naziv}', command=partial(self.open_pot, posude.id))
+            self.btn_open_pot.grid(row= 0, column= f'{i+1}', padx=BODY_PADX, pady= BODY_PADY, sticky='e')
+            self.packing.append((posude.id, self.btn_open_pot))
+            self.len_posude += 1
 
         self.window = self.container.create_window((0, 0), window= self.frm_container, anchor=tk.NW)
         self.update_idletasks()
@@ -45,7 +47,12 @@ class TtkPosude(ttk.Frame):
         self.pack_forget ()    
         self.grid_columnconfigure(0, weight=1)
         self.grid_columnconfigure(1, weight=2)
-        frm_openpot = OpenPot( self, posuda_id)
+
+        #posuda = get_pyposude_by_id(posuda_id)
+        for r in self.packing:
+            if r[0] == posuda_id:
+                l_button = r[1]
+        frm_openpot = OpenPot( self, posuda_id, l_button)
         frm_openpot.grid(row=4, column=0, padx=BODY_PADX, pady= BODY_PADY, sticky= 'W')
         
         btn_sync = ttk.Button(frm_openpot, text='SYNC', command= partial(self.sync_senzor_data, posuda_id))
@@ -78,14 +85,27 @@ class TtkPosude(ttk.Frame):
         ent_naziv_posude_var = tk.StringVar()
         tk.Entry(save_window, textvariable= ent_naziv_posude_var, font=BODY_FONT).grid(row= 1, column=1, padx=BODY_PADX, pady= BODY_PADY, sticky=tk.W)
         ttk.Label(save_window, text='Naziv biljke').grid(row= 2, column=0, padx=BODY_PADX, pady= BODY_PADY, sticky=tk.W)
-        ent_naziv_biljke_var = tk.StringVar()
-        tk.Entry(save_window, textvariable= ent_naziv_biljke_var, font=BODY_FONT).grid(row= 2, column=1, padx=BODY_PADX, pady= BODY_PADY, sticky=tk.W)
+
+        biljka_var = tk.StringVar()
+        ent_biljka = ttk.Combobox(save_window, width= 20, textvariable= biljka_var)
+        values = [x.naziv for x in get_all_pybiljke()]
+        ent_biljka['values'] = values
+        ent_biljka.grid(row= 2, column=1, padx=BODY_PADX, pady= BODY_PADY, sticky=tk.W)
+
         def save_pot():
-            biljka_id = get_biljka_from_naziv(ent_naziv_biljke_var.get())
+            biljka_id = get_biljka_from_naziv(biljka_var.get())
             posuda = Posuda(ent_naziv_posude_var.get(),None,None,None,None,biljka_id)
-            insert_pyposude(posuda)
+            id_posude = insert_pyposude(posuda)
+            self.btn_open_pot = ttk.Button(self.frm_container,text= ent_naziv_posude_var.get(), command=partial(self.open_pot, id_posude))
+            self.btn_open_pot.grid(row= 0, column= f'{self.len_posude+1}', padx=BODY_PADX, pady= BODY_PADY, sticky='e')
+            self.len_posude +=1
+            self.packing.append((id_posude, self.btn_open_pot))
+            self.update_idletasks()
+            self.container.bind('<Configure>', self.update_canvas)
+            self.container.configure(scrollregion=self.frm_container.bbox(tk.ALL))
             save_window.destroy()
         btn_save_pot = ttk.Button(save_window, text='Spremi', command= save_pot)
         btn_save_pot.grid(row= 3, column=0, padx=BODY_PADX, pady= BODY_PADY, sticky=tk.W)
+
        
     

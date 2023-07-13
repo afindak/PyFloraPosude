@@ -86,6 +86,7 @@ def insert_pyposude(posuda: Posuda):
     if data is None:
         session.add(posuda)
         session.commit()
+        return posuda.id
 
 def update_pyposude(id, naziv, vlaga_zemlje, ph_zemlje, temp_zraka, razina_svjetla, id_biljke):
     posuda_to_update = (session.query(Posuda)
@@ -116,10 +117,11 @@ def update_biljka_posude(posuda_id, naziv_posude, naziv_biljke):
         update_pyposude(posuda_id, naziv_posude, None, None, None, None, biljka_id)  
         session.commit()
 
-def take_out_plant(posuda_id):
+def take_out_plant(posuda_id, naziv_posude):
     delete_plant = (session.query(Posuda)
                         .filter(Posuda.id == posuda_id)
                         .update({'vrijeme_azuriranja': dt.now(),
+                                 'naziv': naziv_posude,
                                  'id_biljke': None})
                         )
     session.commit()

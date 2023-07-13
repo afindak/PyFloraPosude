@@ -3,13 +3,13 @@ from tkinter import ttk
 from functools import partial
 from constants import BODY_FONT, BODY_PADX, BODY_PADY
 from datetime import datetime as dt
-from services.db_repo import get_pybiljke_by_id, update_biljka_posude, take_out_plant, get_pyposude_by_id
+from services.db_repo import get_pybiljke_by_id, update_biljka_posude, take_out_plant, get_pyposude_by_id, get_all_pybiljke
 import pandas as pd
 import matplotlib.dates as mdates
 import matplotlib.pyplot as plt
 
-class OpenPot(tk.Frame):
-    def __init__(self, master, posuda_id):
+class OpenPot(tk.Frame, ttk.Button):
+    def __init__(self, master, posuda_id, btn_open_pot: ttk.Button ):
         super().__init__(master)
 
         posuda = get_pyposude_by_id(posuda_id)
@@ -57,19 +57,28 @@ class OpenPot(tk.Frame):
         l_id_biljke = posuda.id_biljke
         if (l_id_biljke is not None) and l_id_biljke!= '':
             naziv_biljke = get_pybiljke_by_id(l_id_biljke).naziv
-            ent_biljka_var.set(naziv_biljke)
-        tk.Entry(self, textvariable= ent_biljka_var, font=BODY_FONT, width=10).grid(row= 7, column=1, padx=BODY_PADX, pady= BODY_PADY)
+        else:
+             naziv_biljke = None
+        
+        ent_biljka = ttk.Combobox(self, width= 12, textvariable= ent_biljka_var)
+        values = [x.naziv for x in get_all_pybiljke()]
+        ent_biljka['values'] = values
+        ent_biljka.grid(row= 7, column=1, padx=BODY_PADX, pady= BODY_PADY)
+        idx = values.index(naziv_biljke) if naziv_biljke is not None else None
+        ent_biljka.current(idx)
 
-        def update_pot(posuda_id):
+        def update_pot(posuda_id, btn_open_pot):
             nova_biljka = ent_biljka_var.get()
             if nova_biljka is None or nova_biljka == '':
-                take_out_plant(posuda_id)
+                take_out_plant(posuda_id, ent_naziv_posude_var.get())
             else:
-                update_biljka_posude(posuda_id, ent_naziv_posude_var.get(), ent_biljka_var.get() )
-        btn_update_pot = ttk.Button(self, text='Ažuriraj/ Isprazni', command= partial(update_pot, posuda_id))
+                update_biljka_posude(posuda_id, ent_naziv_posude_var.get(), nova_biljka )
+            btn_open_pot['text'] = ent_naziv_posude_var.get()
+        btn_update_pot = ttk.Button(self, text='Ažuriraj/ Isprazni', command= partial(update_pot, posuda_id, btn_open_pot))
         btn_update_pot.grid(row= 8, column= 1, padx= BODY_PADX, pady= BODY_PADY)
 
         self.figure = plt.figure(figsize=(3,3),dpi=100)
+    
 
     def create_graph(self, posuda_id):
             senzordata_df = pd.read_csv('db_data\pyposude.csv', sep=',')
