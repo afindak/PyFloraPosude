@@ -120,4 +120,7 @@ class TtkPosude(ttk.Frame):
 
         posuda = get_pyposude_by_id(id_posude)
         delete_pyposude(posuda)
+        self.update_idletasks()
+        self.container.bind('<Configure>', self.update_canvas)
+        self.container.configure(scrollregion=self.frm_container.bbox(tk.ALL))
             

@@ -73,6 +73,14 @@ def update_pybiljke(id, naziv, slika, njega):
     session.commit()
     return biljka_to_upd
 
+def update_new_pybiljke(id, nova_biljka: Biljka):
+    biljka_to_upd = (session.query(Biljka)
+                     .filter(Biljka.id == id)
+                     .update({'naziv': func.coalesce(nova_biljka.naziv, Biljka.naziv),
+                              'slika': func.coalesce(nova_biljka.slika, Biljka.slika)}))
+    session.commit()
+    return biljka_to_upd
+
 def delete_pybiljke(biljka_to_del: Biljka):
     session.delete(biljka_to_del)
     session.commit()
@@ -121,7 +129,7 @@ def take_out_plant(posuda_id, naziv_posude):
     delete_plant = (session.query(Posuda)
                         .filter(Posuda.id == posuda_id)
                         .update({'vrijeme_azuriranja': dt.now(),
-                                 'naziv': naziv_posude,
+                                 'naziv': func.coalesce(naziv_posude, Posuda.naziv),
                                  'id_biljke': None})
                         )
     session.commit()

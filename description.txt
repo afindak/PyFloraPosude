@@ -9,6 +9,9 @@ Frameove dodajemo pack jedan ispod drugoga u canvas Frame,
 canvas frameovi se bindeaju i skrolaju
 Nova biljka se dodaje na 'Dodaj biljku', a podaci o njezi biljke se azuriraju ovisno o simuliranim podacima sa senzora posude. 
 Ako biljka nije dodana ni u jednu posudu, podatak o njezi je prazan. 
+Na Ažuriraj/Izbriši se otvara novi prozor u kojem iz ddl-a dohvatimo postojeću biljku i na Izbriši ju izbrišemo (pri tome se biljka i isprazni iz svih posuda). 
+Također joj na Ažuriraj možemo ažurirati naziv i/ili sliku. Lista biljaka (prikaz) se ažurira kod promjene taba. 
+
 tk_gui -> tab_biljke.py
 models -> biljka.py
 services -> db_repo
@@ -23,8 +26,8 @@ Spremamo simulirane podatke o tlaku, temp, vlazi u .csv file po datumu i id-u po
 Imamo 3 grafa (temp, vlaga i ph ovisno o datumu osvježavanja posude).
 tk_gui -> tab_posude.py, open_pot.py 
 models -> posuda.py
-Za dodavanje nove posude/ biljke se otvara novi prozorčić Toplevel, koji nakon akcije dodavanja nestaje.
-
+Za dodavanje nove posude/ biljke se otvara novi prozorčić Toplevel, koji nakon akcije dodavanja nestaje, te se u gridu posuda javlja novi gumb s nazivom posude.
+Kod brisanja posude briše se njen gumb iz grida, posuda iz baze i updatea se širina canvasa.
 
 Biljke:
 a)
