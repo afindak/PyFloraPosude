@@ -1,2 +1,2 @@
-# PyFloraPosude
- Seminar
+# Seminarski rad Algebra
+
