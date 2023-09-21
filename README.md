@@ -1,2 +1,2 @@
-# Seminarski
- PyFloraPosude
+# PyFloraPosude
+ Seminar
